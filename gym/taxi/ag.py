@@ -9,7 +9,6 @@ def train_agent():
     state_size = env.observation_space.n
     action_size = env.action_space.n
     qtable = np.zeros((state_size, action_size))
-
     # set the number of episodes
     EPISODES = 500
     STEPS_PER_EPISODE = 50
@@ -24,7 +23,6 @@ def train_agent():
         done = False
         # reset the env for each new episodeY
         state = env.reset()
-        print('state',state[0])
         if(isinstance(state, int)):
             state = state
         else:
@@ -42,18 +40,15 @@ def train_agent():
                 action = np.argmax(qtable[state,:])
 
             values= env.step(action)
-            print(values)
             new_state = values[0]
             reward = values[1]
             done = values[2]
             info = values[4]
             # Q-learning algorithm implementation1
-            print('new_state',new_state)
             if(isinstance(state, int)):
                 state = state
             else:
                 state = state[0]
-            print('state',state)
             # state = state[0]
             qtable[state,action] = qtable[state,action] + learning_rate * (reward + discount_rate * np.max(qtable[new_state,:])-qtable[state,action])
 
